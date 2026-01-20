@@ -288,3 +288,5 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     home.form = homeForm
+
+export const dashboard = { url: () => '/dashboard', method: 'get' };
