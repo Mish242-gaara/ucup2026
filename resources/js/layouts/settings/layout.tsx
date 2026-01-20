@@ -2,10 +2,8 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
-import { appearance as editAppearance } from '@/routes/settings';
-import { edit } from '@/routes/auth';
-import { show } from '@/routes/two-factor';
-import { edit as editPassword } from '@/routes/user-password';
+import passwordRoutes from '@/routes/password'; 
+import twoFactorRoutes from '@/routes/two-factor';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
@@ -13,28 +11,24 @@ import { type PropsWithChildren } from 'react';
 const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
-        href: edit(),
+        href: '/user/profile', // Lien direct (standard Laravel Fortify)
         icon: null,
     },
     {
         title: 'Password',
-        href: editPassword(),
+        // Utilise la route de confirmation ou de mise à jour du mot de passe
+        href: passwordRoutes.confirm().url, 
         icon: null,
     },
     {
         title: 'Two-Factor Auth',
-        href: show(),
-        icon: null,
-    },
-    {
-        title: 'Appearance',
-        href: editAppearance(),
+        // On pointe vers la page d'activation/gestion du 2FA
+        href: twoFactorRoutes.enable().url,
         icon: null,
     },
 ];
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
-    // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {
         return null;
     }
