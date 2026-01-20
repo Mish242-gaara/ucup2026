@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\UniversityController::index
  * @see app/Http/Controllers/Admin/UniversityController.php:16
@@ -245,7 +245,7 @@ edit.url = (args: { university: number | { id: number } } | [university: number 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         university: typeof args.university === 'object'
@@ -347,7 +347,7 @@ update.url = (args: { university: number | { id: number } } | [university: numbe
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         university: typeof args.university === 'object'
@@ -435,8 +435,6 @@ destroy.url = (args: { university: number | { id: number } } | [university: numb
                     university: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         university: typeof args.university === 'object'

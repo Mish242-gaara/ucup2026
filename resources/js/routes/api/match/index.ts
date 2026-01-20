@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Frontend\MatchController::status
  * @see app/Http/Controllers/Frontend/MatchController.php:0
@@ -30,8 +30,6 @@ status.url = (args: { match: string | number } | [match: string | number ] | str
                     match: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match: args.match,

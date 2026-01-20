@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 import stats from './stats'
 /**
 * @see \App\Http\Controllers\Admin\MatchController::index
@@ -243,7 +243,7 @@ show.url = (args: { match: string | number } | [match: string | number ] | strin
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -343,7 +343,7 @@ edit.url = (args: { match: number | { id: number } } | [match: number | { id: nu
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -445,7 +445,7 @@ update.url = (args: { match: number | { id: number } } | [match: number | { id: 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -557,8 +557,6 @@ destroy.url = (args: { match: number | { id: number } } | [match: number | { id:
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match: typeof args.match === 'object'
                 ? args.match.id
@@ -643,7 +641,7 @@ duplicate.url = (args: { match: string | number } | [match: string | number ] | 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -720,7 +718,7 @@ lineup.url = (args: { match: number | { id: number } } | [match: number | { id: 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -822,8 +820,6 @@ store_lineup.url = (args: { match: number | { id: number } } | [match: number | 
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match: typeof args.match === 'object'
                 ? args.match.id
@@ -893,8 +889,6 @@ players.url = (args: { match: number | { id: number }, team: string | number } |
                     team: args[1],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match: typeof args.match === 'object'

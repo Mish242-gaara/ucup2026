@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\PlayerController::index
  * @see app/Http/Controllers/Admin/PlayerController.php:16
@@ -245,8 +245,6 @@ show.url = (args: { player: number | { id: number } } | [player: number | { id: 
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         player: typeof args.player === 'object'
                 ? args.player.id
@@ -346,8 +344,6 @@ edit.url = (args: { player: number | { id: number } } | [player: number | { id: 
                     player: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         player: typeof args.player === 'object'
@@ -449,7 +445,7 @@ update.url = (args: { player: number | { id: number } } | [player: number | { id
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         player: typeof args.player === 'object'
@@ -560,8 +556,6 @@ destroy.url = (args: { player: number | { id: number } } | [player: number | { i
                     player: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         player: typeof args.player === 'object'

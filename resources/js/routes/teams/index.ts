@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\Frontend\TeamController::index
  * @see app/Http/Controllers/Frontend/TeamController.php:13
@@ -112,7 +112,7 @@ show.url = (args: { team: number | { id: number } } | [team: number | { id: numb
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         team: typeof args.team === 'object'

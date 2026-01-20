@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Api\RealTimeMatchController::realtime
  * @see app/Http/Controllers/Api/RealTimeMatchController.php:23
@@ -31,7 +31,7 @@ realtime.url = (args: { match: string | number } | [match: string | number ] | s
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -128,7 +128,7 @@ stream.url = (args: { match: string | number } | [match: string | number ] | str
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,

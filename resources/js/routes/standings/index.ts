@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\Frontend\StandingController::index
  * @see app/Http/Controllers/Frontend/StandingController.php:28
@@ -109,7 +109,7 @@ group.url = (args: { group: string | number } | [group: string | number ] | stri
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         group: args.group,

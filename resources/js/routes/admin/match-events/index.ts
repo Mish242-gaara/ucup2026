@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\MatchEventController::create
  * @see app/Http/Controllers/Admin/MatchEventController.php:24
@@ -164,8 +164,6 @@ show.url = (args: { match_event: string | number } | [match_event: string | numb
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match_event: args.match_event,
                 }
@@ -261,8 +259,6 @@ edit.url = (args: { match_event: string | number } | [match_event: string | numb
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match_event: args.match_event,
                 }
@@ -357,8 +353,6 @@ update.url = (args: { match_event: string | number } | [match_event: string | nu
                     match_event: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match_event: args.match_event,
@@ -464,8 +458,6 @@ destroy.url = (args: { match_event: string | number } | [match_event: string | n
                     match_event: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match_event: args.match_event,

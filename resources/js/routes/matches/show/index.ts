@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Frontend\MatchController::sofascore
  * @see app/Http/Controllers/Frontend/MatchController.php:132
@@ -33,8 +33,6 @@ sofascore.url = (args: { match: number | { id: number } } | [match: number | { i
                     match: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match: typeof args.match === 'object'

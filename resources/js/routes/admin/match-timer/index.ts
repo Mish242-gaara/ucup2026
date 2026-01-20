@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\MatchTimerController::start
  * @see app/Http/Controllers/Admin/MatchTimerController.php:14
@@ -31,7 +31,7 @@ start.url = (args: { match: string | number } | [match: string | number ] | stri
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -105,7 +105,7 @@ pause.url = (args: { match: string | number } | [match: string | number ] | stri
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -179,7 +179,7 @@ resume.url = (args: { match: string | number } | [match: string | number ] | str
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -253,7 +253,7 @@ stop.url = (args: { match: string | number } | [match: string | number ] | strin
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -327,8 +327,6 @@ additionalTimeFirstHalf.url = (args: { match: string | number } | [match: string
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match: args.match,
                 }
@@ -401,7 +399,7 @@ additionalTimeSecondHalf.url = (args: { match: string | number } | [match: strin
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -475,7 +473,7 @@ enableExtraTime.url = (args: { match: string | number } | [match: string | numbe
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -549,8 +547,6 @@ disableExtraTime.url = (args: { match: string | number } | [match: string | numb
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match: args.match,
                 }
@@ -623,7 +619,7 @@ enablePenaltyShootout.url = (args: { match: string | number } | [match: string |
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -697,7 +693,7 @@ disablePenaltyShootout.url = (args: { match: string | number } | [match: string 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,
@@ -771,7 +767,7 @@ elapsedTime.url = (args: { match: string | number } | [match: string | number ] 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,

@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
  * @see vendor/laravel/framework/src/Illuminate/Filesystem/FilesystemServiceProvider.php:98
  * @route '/storage/{path}'
@@ -29,7 +29,7 @@ local.url = (args: { path: string | number } | [path: string | number ] | string
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         path: args.path,

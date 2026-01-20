@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\LiveMatchController::update
  * @see app/Http/Controllers/Admin/LiveMatchController.php:0
@@ -27,7 +27,7 @@ update.url = (args: { match: string | number, team: string | number } | [match: 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: args.match,

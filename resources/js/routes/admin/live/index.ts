@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 import lineup from './lineup'
 /**
 * @see \App\Http\Controllers\Admin\LiveMatchController::index
@@ -113,7 +113,7 @@ show.url = (args: { match: number | { id: number } } | [match: number | { id: nu
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -215,7 +215,7 @@ update_stats.url = (args: { match: number | { id: number } } | [match: number | 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -294,7 +294,7 @@ update_status.url = (args: { match: number | { id: number } } | [match: number |
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -373,7 +373,7 @@ add_event.url = (args: { match: number | { id: number } } | [match: number | { i
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -452,7 +452,7 @@ delete_event.url = (args: { matchEvent: number | { id: number } } | [matchEvent:
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         matchEvent: typeof args.matchEvent === 'object'

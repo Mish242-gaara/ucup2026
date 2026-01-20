@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\ManualStatsController::edit
  * @see app/Http/Controllers/Admin/ManualStatsController.php:15
@@ -33,8 +33,6 @@ edit.url = (args: { match: number | { id: number } } | [match: number | { id: nu
                     match: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match: typeof args.match === 'object'
@@ -136,8 +134,6 @@ update.url = (args: { match: number | { id: number } } | [match: number | { id: 
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         match: typeof args.match === 'object'
                 ? args.match.id
@@ -224,8 +220,6 @@ show.url = (args: { match: number | { id: number } } | [match: number | { id: nu
                     match: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         match: typeof args.match === 'object'

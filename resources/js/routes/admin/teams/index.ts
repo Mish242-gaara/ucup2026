@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\TeamController::index
  * @see app/Http/Controllers/Admin/TeamController.php:12
@@ -245,8 +245,6 @@ show.url = (args: { team: number | { id: number } } | [team: number | { id: numb
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         team: typeof args.team === 'object'
                 ? args.team.id
@@ -347,8 +345,6 @@ edit.url = (args: { team: number | { id: number } } | [team: number | { id: numb
                 }
     }
 
-    args = applyUrlDefaults(args)
-
     const parsedArgs = {
                         team: typeof args.team === 'object'
                 ? args.team.id
@@ -448,8 +444,6 @@ update.url = (args: { team: number | { id: number } } | [team: number | { id: nu
                     team: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         team: typeof args.team === 'object'
@@ -560,8 +554,6 @@ destroy.url = (args: { team: number | { id: number } } | [team: number | { id: n
                     team: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         team: typeof args.team === 'object'

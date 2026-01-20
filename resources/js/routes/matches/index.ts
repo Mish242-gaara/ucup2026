@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 import showBac614 from './show'
 /**
 * @see \App\Http\Controllers\Frontend\MatchController::index
@@ -191,7 +191,7 @@ show.url = (args: { match: number | { id: number } } | [match: number | { id: nu
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         match: typeof args.match === 'object'

@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\UserController::index
  * @see app/Http/Controllers/Admin/UserController.php:15
@@ -242,7 +242,7 @@ show.url = (args: { user: string | number } | [user: string | number ] | string 
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         user: args.user,
@@ -342,7 +342,7 @@ edit.url = (args: { user: number | { id: number } } | [user: number | { id: numb
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         user: typeof args.user === 'object'
@@ -444,7 +444,7 @@ update.url = (args: { user: number | { id: number } } | [user: number | { id: nu
                 }
     }
 
-    args = applyUrlDefaults(args)
+
 
     const parsedArgs = {
                         user: typeof args.user === 'object'
@@ -555,8 +555,6 @@ destroy.url = (args: { user: number | { id: number } } | [user: number | { id: n
                     user: args[0],
                 }
     }
-
-    args = applyUrlDefaults(args)
 
     const parsedArgs = {
                         user: typeof args.user === 'object'

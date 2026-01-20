@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\GalleryController::index
  * @see app/Http/Controllers/Admin/GalleryController.php:17
@@ -242,7 +242,7 @@ destroy.url = (args: { gallery: string | number } | [gallery: string | number ] 
                 }
     }
 
-    args = applyUrlDefaults(args)
+    
 
     const parsedArgs = {
                         gallery: args.gallery,
