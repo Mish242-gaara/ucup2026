@@ -1353,6 +1353,7 @@
         isPaused: {{ $match->timer_paused_at ? 'true' : 'false' }},
         elapsedSeconds: {{ (int) $match->getElapsedTime() }},
         lastUpdate: Date.now(), // Timestamp de la dernière mise à jour reçue
+        tickInterval: null,
     };
 
     function formatSeconds(totalSeconds) {
@@ -1416,8 +1417,18 @@
         }
     }
 
-    // PAS de timer local ! Le frontend affiche SEULEMENT ce que le backend envoie.
-    // Pas de setInterval pour incrémenter le timer - c'est le backend qui gère ça.
+    function startLocalTimer() {
+        if (timerState.tickInterval) {
+            return;
+        }
+
+        timerState.tickInterval = setInterval(() => {
+            if (timerState.status === 'live' && !timerState.isPaused) {
+                timerState.elapsedSeconds += 1;
+                renderTimer();
+            }
+        }, 1000);
+    }
 
     // Fonction pour mettre à jour le temps écoulé
     function updateElapsedTime() {
@@ -1592,7 +1603,7 @@
             const updateInterval = setInterval(fetchUpdates, 2000);
 
             // Polling pour timer (fallback toutes les 15 secondes - pas de timer local JavaScript)
-            const elapsedTimeInterval = setInterval(updateElapsedTime, 15000);
+            const elapsedTimeInterval = setInterval(updateElapsedTime, 5000);
 
             // Première mise à jour immédiate
             fetchUpdates();
@@ -1612,44 +1623,7 @@
             // Si Echo n'est pas dispo ou n'a pas de méthode channel, utiliser polling
             if (!window.Echo || typeof window.Echo.channel !== 'function') {
                 console.warn('[Realtime] Echo non dispo, polling actif');
-                
-                // Polling pour timer toutes les 5 secondes
-                const timerInterval = setInterval(() => {
-                    fetch(`/api/matches/{{ $match->id }}/timer`)
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data && data.success) {
-                                applyTimerState({
-                                    status: data.status,
-                                    is_paused: data.is_paused,
-                                    elapsed_time: data.elapsed_time,
-                                });
-                            }
-                        })
-                        .catch(() => {});
-                }, 5000);
-                
-                // Polling pour événements
-                const eventsInterval = setInterval(() => {
-                    fetch(`/api/matches/{{ $match->id }}/live-update?last_event_time=${encodeURIComponent(lastEventTime)}`)
-                        .then(r => r.json())
-                        .then(data => {
-                            if (data && data.success && data.new_events) {
-                                data.new_events.forEach(e => addEvent(e));
-                                if (data.last_event_time) lastEventTime = data.last_event_time;
-                            }
-                        })
-                        .catch(() => {});
-                }, 3000);
-                
-                console.log('✅ Polling actif (timer: 5s, events: 3s)');
-                
-                // Cleanup
-                window.addEventListener('beforeunload', () => {
-                    clearInterval(timerInterval);
-                    clearInterval(eventsInterval);
-                });
-                
+                startPolling();
                 return;
             }
 
@@ -1708,13 +1682,15 @@
             } catch (e) {
                 console.error('[Realtime] Erreur WebSocket:', e);
                 // Fallback vers polling
-                setupRealtime();
+                startPolling();
             }
         }
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             renderTimer(); // Affiche le timer initial (backend-driven)
+            startLocalTimer();
+            updateElapsedTime();
             setupRealtime();
             
             // DEBUG: Vérifier l'état du timer

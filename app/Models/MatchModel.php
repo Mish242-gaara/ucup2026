@@ -38,6 +38,11 @@ class MatchModel extends Model
         'start_time' => 'datetime',
         'timer_paused_at' => 'datetime',
         'match_type' => 'string',
+        'elapsed_time' => 'integer',
+        'additional_time_first_half' => 'integer',
+        'additional_time_second_half' => 'integer',
+        'is_extra_time' => 'boolean',
+        'is_penalty_shootout' => 'boolean',
     ];
 
     /**
@@ -240,10 +245,10 @@ class MatchModel extends Model
         if ($this->start_time) {
             $now = Carbon::now();
             $base = (int) ($this->elapsed_time ?? 0);
-            $segment = $now->diffInSeconds(Carbon::parse($this->start_time), false);
-            $this->elapsed_time = max(0, $base + $segment);
+            $segment = (int) $now->diffInSeconds(Carbon::parse($this->start_time), false);
+            $this->elapsed_time = (int) max(0, (int) $base + (int) $segment);
         } else {
-            $this->elapsed_time = max(0, (int) ($this->elapsed_time ?? 0));
+            $this->elapsed_time = (int) max(0, (int) ($this->elapsed_time ?? 0));
         }
         $this->start_time = null;
         $this->timer_paused_at = null;
