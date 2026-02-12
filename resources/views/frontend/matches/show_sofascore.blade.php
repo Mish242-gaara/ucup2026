@@ -439,6 +439,147 @@
         margin: 20px 0;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
+
+    .stats-panel-sofascore {
+        background: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+        border: 1px solid #1f2937;
+        border-radius: 18px;
+        padding: 20px 16px;
+        box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.08), 0 20px 30px rgba(2, 6, 23, 0.35);
+    }
+
+    .stats-panel-title-sofascore {
+        color: #f3f4f6;
+        font-size: 1.2rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+
+    .stats-panel-subtitle-sofascore {
+        color: #94a3b8;
+        text-align: center;
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+    }
+
+    .stats-list-sofascore {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .stat-row-sofascore {
+        background: rgba(17, 24, 39, 0.7);
+        border: 1px solid rgba(55, 65, 81, 0.7);
+        border-radius: 14px;
+        padding: 10px 12px;
+        transition: border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .stat-row-sofascore.is-updated {
+        border-color: rgba(56, 189, 248, 0.8);
+        background: rgba(15, 23, 42, 0.95);
+    }
+
+    .stat-row-head-sofascore {
+        display: grid;
+        grid-template-columns: 52px 1fr 52px;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .stat-label-sofascore {
+        color: #e5e7eb;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .stat-value-home-sofascore,
+    .stat-value-away-sofascore {
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-align: center;
+        border-radius: 999px;
+        padding: 2px 6px;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .stat-value-home-sofascore {
+        color: #a7f3d0;
+        background: rgba(16, 185, 129, 0.18);
+    }
+
+    .stat-value-away-sofascore {
+        color: #c4b5fd;
+        background: rgba(129, 140, 248, 0.18);
+    }
+
+    .stat-bar-track-sofascore {
+        height: 9px;
+        width: 100%;
+        background: #111827;
+        border-radius: 999px;
+        display: flex;
+        overflow: hidden;
+    }
+
+    .stat-bar-home-sofascore,
+    .stat-bar-away-sofascore {
+        display: block;
+        height: 100%;
+        transition: width 0.35s ease;
+    }
+
+    .stat-bar-home-sofascore {
+        background: linear-gradient(90deg, #16a34a, #4ade80);
+    }
+
+    .stat-bar-away-sofascore {
+        background: linear-gradient(90deg, #818cf8, #a78bfa);
+    }
+
+    .stat-row-possession-sofascore {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .stat-row-possession-sofascore .stat-label-sofascore {
+        font-weight: 700;
+    }
+
+    .stat-row-possession-sofascore .stat-bar-track-sofascore {
+        height: 16px;
+    }
+
+    .stat-bars-dual-sofascore {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-bar-side-track-sofascore {
+        height: 6px;
+        border-radius: 999px;
+        background: #111827;
+        overflow: hidden;
+    }
+
+    .stat-bar-side-fill-sofascore {
+        display: block;
+        height: 100%;
+        transition: width 0.35s ease;
+    }
+
+    .stat-bar-side-fill-home-sofascore {
+        background: linear-gradient(90deg, #16a34a, #4ade80);
+    }
+
+    .stat-bar-side-fill-away-sofascore {
+        background: linear-gradient(90deg, #818cf8, #a78bfa);
+    }
     
     .info-row-sofascore {
         display: flex;
@@ -455,6 +596,15 @@
     .info-value-sofascore {
         color: #d1d5db;
         font-weight: 600;
+    }
+
+    .stat-row-sofascore.new {
+        animation: statPulse 1.5s ease-out;
+    }
+
+    @keyframes statPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.02); }
     }
     
     @media (max-width: 768px) {
@@ -476,6 +626,15 @@
         .tab-sofascore {
             padding: 12px 20px;
             font-size: 0.9rem;
+        }
+
+        .stat-row-head-sofascore {
+            grid-template-columns: 46px 1fr 46px;
+            gap: 6px;
+        }
+
+        .stat-label-sofascore {
+            font-size: 0.82rem;
         }
     }
     
@@ -805,130 +964,143 @@
         <div id="stats" class="tab-content-sofascore">
             <div class="match-info-section-sofascore">
                 <h3 class="text-xl font-bold mb-6 text-white">Statistiques du match</h3>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Tirs</span>
-                            <span class="text-lg">⚽</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-lg home-shots">{{ $match->home_shots ?? 0 }}</span>
+
+                <div class="stats-panel-sofascore">
+                    <div class="stats-panel-title-sofascore">Aperçu du match</div>
+                    <div class="stats-panel-subtitle-sofascore">Comparaison domicile vs extérieur</div>
+
+                    @php
+                        $statRows = [
+                            [
+                                'label' => 'Possession de balle',
+                                'home' => (int) ($match->home_possession ?? 50),
+                                'away' => (int) ($match->away_possession ?? 50),
+                                'homeClass' => 'home-possession',
+                                'awayClass' => 'away-possession',
+                                'format' => 'percent',
+                                'suffix' => '%',
+                            ],
+                            [
+                                'label' => 'Total des tirs',
+                                'home' => (int) ($match->home_shots ?? 0),
+                                'away' => (int) ($match->away_shots ?? 0),
+                                'homeClass' => 'home-shots',
+                                'awayClass' => 'away-shots',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Tirs cadrés',
+                                'home' => (int) ($match->home_shots_on_target ?? 0),
+                                'away' => (int) ($match->away_shots_on_target ?? 0),
+                                'homeClass' => 'home-shots-on-target',
+                                'awayClass' => 'away-shots-on-target',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Arrêts du gardien',
+                                'home' => (int) ($match->home_saves ?? 0),
+                                'away' => (int) ($match->away_saves ?? 0),
+                                'homeClass' => 'home-saves',
+                                'awayClass' => 'away-saves',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Corners',
+                                'home' => (int) ($match->home_corners ?? 0),
+                                'away' => (int) ($match->away_corners ?? 0),
+                                'homeClass' => 'home-corners',
+                                'awayClass' => 'away-corners',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Fautes',
+                                'home' => (int) ($match->home_fouls ?? 0),
+                                'away' => (int) ($match->away_fouls ?? 0),
+                                'homeClass' => 'home-fouls',
+                                'awayClass' => 'away-fouls',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Hors-jeux',
+                                'home' => (int) ($match->home_offsides ?? 0),
+                                'away' => (int) ($match->away_offsides ?? 0),
+                                'homeClass' => 'home-offsides',
+                                'awayClass' => 'away-offsides',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Coups francs',
+                                'home' => (int) ($match->home_free_kicks ?? 0),
+                                'away' => (int) ($match->away_free_kicks ?? 0),
+                                'homeClass' => 'home-free-kicks',
+                                'awayClass' => 'away-free-kicks',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Touches',
+                                'home' => (int) ($match->home_throw_ins ?? 0),
+                                'away' => (int) ($match->away_throw_ins ?? 0),
+                                'homeClass' => 'home-throw-ins',
+                                'awayClass' => 'away-throw-ins',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Cartons jaunes',
+                                'home' => (int) ($match->home_yellow_cards ?? 0),
+                                'away' => (int) ($match->away_yellow_cards ?? 0),
+                                'homeClass' => 'home-yellow-cards',
+                                'awayClass' => 'away-yellow-cards',
+                                'format' => 'ratio',
+                            ],
+                            [
+                                'label' => 'Cartons rouges',
+                                'home' => (int) ($match->home_red_cards ?? 0),
+                                'away' => (int) ($match->away_red_cards ?? 0),
+                                'homeClass' => 'home-red-cards',
+                                'awayClass' => 'away-red-cards',
+                                'format' => 'ratio',
+                            ],
+                        ];
+                    @endphp
+
+                    <div class="stats-list-sofascore">
+                        @foreach($statRows as $statRow)
+                            @php
+                                $homeValue = (float) $statRow['home'];
+                                $awayValue = (float) $statRow['away'];
+                                $totalValue = $homeValue + $awayValue;
+                                $homeWidth = $totalValue > 0 ? ($homeValue / $totalValue) * 100 : 0;
+                                $awayWidth = $totalValue > 0 ? ($awayValue / $totalValue) * 100 : 0;
+                                $suffix = $statRow['suffix'] ?? '';
+                            @endphp
+                            <div class="stat-row-sofascore {{ $statRow['format'] === 'percent' ? 'stat-row-possession-sofascore' : '' }}" data-stat-format="{{ $statRow['format'] }}">
+                                <div class="stat-row-head-sofascore">
+                                    <span class="stat-value-home-sofascore {{ $statRow['homeClass'] }}" data-stat-role="home">{{ (int) $homeValue }}{{ $suffix }}</span>
+                                    <span class="stat-label-sofascore">{{ $statRow['label'] }}</span>
+                                    <span class="stat-value-away-sofascore {{ $statRow['awayClass'] }}" data-stat-role="away">{{ (int) $awayValue }}{{ $suffix }}</span>
+                                </div>
+                                @if($statRow['format'] === 'percent')
+                                    <div class="stat-bar-track-sofascore">
+                                        <span class="stat-bar-home-sofascore" data-stat-bar="home" style="width: {{ number_format($homeWidth, 2, '.', '') }}%"></span>
+                                        <span class="stat-bar-away-sofascore" data-stat-bar="away" style="width: {{ number_format($awayWidth, 2, '.', '') }}%"></span>
+                                    </div>
+                                @else
+                                    @php
+                                        $maxValue = max($homeValue, $awayValue, 1);
+                                        $homeGaugeWidth = ($homeValue / $maxValue) * 100;
+                                        $awayGaugeWidth = ($awayValue / $maxValue) * 100;
+                                    @endphp
+                                    <div class="stat-bars-dual-sofascore">
+                                        <div class="stat-bar-side-track-sofascore">
+                                            <span class="stat-bar-side-fill-sofascore stat-bar-side-fill-home-sofascore" data-stat-gauge="home" style="width: {{ number_format($homeGaugeWidth, 2, '.', '') }}%"></span>
+                                        </div>
+                                        <div class="stat-bar-side-track-sofascore">
+                                            <span class="stat-bar-side-fill-sofascore stat-bar-side-fill-away-sofascore" data-stat-gauge="away" style="width: {{ number_format($awayGaugeWidth, 2, '.', '') }}%"></span>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <div class="flex items-center space-x-2">
-                                <span class="font-bold text-lg away-shots">{{ $match->away_shots ?? 0 }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Tirs cadrés</span>
-                            <span class="text-lg">🎯</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-shots-on-target">{{ $match->home_shots_on_target ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-shots-on-target">{{ $match->away_shots_on_target ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Corners</span>
-                            <span class="text-lg">🏁</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-corners">{{ $match->home_corners ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-corners">{{ $match->away_corners ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Fautes</span>
-                            <span class="text-lg">⚠️</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-fouls">{{ $match->home_fouls ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-fouls">{{ $match->away_fouls ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Hors-jeux</span>
-                            <span class="text-lg">🚫</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-offsides">{{ $match->home_offsides ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-offsides">{{ $match->away_offsides ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Cartons jaunes</span>
-                            <span class="text-lg">🟨</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-yellow-cards">{{ $match->home_yellow_cards ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-yellow-cards">{{ $match->away_yellow_cards ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Cartons rouges</span>
-                            <span class="text-lg">🟥</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-red-cards">{{ $match->home_red_cards ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-red-cards">{{ $match->away_red_cards ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Arrêts</span>
-                            <span class="text-lg">🧤</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-saves">{{ $match->home_saves ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-saves">{{ $match->away_saves ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Coups francs</span>
-                            <span class="text-lg">🎯</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-free-kicks">{{ $match->home_free_kicks ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-free-kicks">{{ $match->away_free_kicks ?? 0 }}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="stat-card-sofascore">
-                        <div class="text-xs font-medium text-gray-300 mb-2 flex items-center justify-between">
-                            <span>Touches</span>
-                            <span class="text-lg">🤲</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="font-bold text-lg home-throw-ins">{{ $match->home_throw_ins ?? 0 }}</span>
-                            <span class="text-gray-400 mx-1">|</span>
-                            <span class="font-bold text-lg away-throw-ins">{{ $match->away_throw_ins ?? 0 }}</span>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -988,6 +1160,56 @@
             }, index * 100);
         });
     }
+
+    function parseStatValue(rawValue) {
+        const parsed = parseFloat(String(rawValue).replace(',', '.').replace(/[^\d.-]/g, ''));
+        return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function refreshStatsBars() {
+        const rows = document.querySelectorAll('.stat-row-sofascore');
+
+        rows.forEach((row) => {
+            const homeValueEl = row.querySelector('[data-stat-role="home"]');
+            const awayValueEl = row.querySelector('[data-stat-role="away"]');
+            if (!homeValueEl || !awayValueEl) {
+                return;
+            }
+
+            const homeValue = parseStatValue(homeValueEl.textContent);
+            const awayValue = parseStatValue(awayValueEl.textContent);
+            const format = row.dataset.statFormat;
+
+            if (format === 'percent') {
+                const homeBar = row.querySelector('[data-stat-bar="home"]');
+                const awayBar = row.querySelector('[data-stat-bar="away"]');
+                if (!homeBar || !awayBar) {
+                    return;
+                }
+
+                const totalValue = homeValue + awayValue;
+                const homeWidth = totalValue > 0 ? (homeValue / totalValue) * 100 : 0;
+                const awayWidth = totalValue > 0 ? (awayValue / totalValue) * 100 : 0;
+
+                homeBar.style.width = `${homeWidth}%`;
+                awayBar.style.width = `${awayWidth}%`;
+                return;
+            }
+
+            const homeGauge = row.querySelector('[data-stat-gauge="home"]');
+            const awayGauge = row.querySelector('[data-stat-gauge="away"]');
+            if (!homeGauge || !awayGauge) {
+                return;
+            }
+
+            const maxValue = Math.max(homeValue, awayValue, 1);
+            const homeWidth = (homeValue / maxValue) * 100;
+            const awayWidth = (awayValue / maxValue) * 100;
+
+            homeGauge.style.width = `${homeWidth}%`;
+            awayGauge.style.width = `${awayWidth}%`;
+        });
+    }
     
     function showTab(tabName) {
         // Masquer tous les contenus d'onglets
@@ -1018,6 +1240,7 @@
     // Initialiser les animations après le chargement
     document.addEventListener('DOMContentLoaded', function() {
         animateEvents();
+        refreshStatsBars();
     });
     
     // Fonction pour mettre à jour les statistiques et le score
@@ -1041,6 +1264,8 @@
             
             // Liste de toutes les statistiques à mettre à jour
             const statMappings = [
+                { selector: '.home-possession', stat: 'possession', team: 'home', suffix: '%' },
+                { selector: '.away-possession', stat: 'possession', team: 'away', suffix: '%' },
                 { selector: '.home-shots', stat: 'shots', team: 'home' },
                 { selector: '.away-shots', stat: 'shots', team: 'away' },
                 { selector: '.home-shots-on-target', stat: 'shots_on_target', team: 'home' },
@@ -1067,14 +1292,25 @@
                 const element = document.querySelector(mapping.selector);
                 if (element && stats[mapping.stat] && stats[mapping.stat][mapping.team] !== undefined) {
                     const newValue = stats[mapping.stat][mapping.team];
-                    const oldValue = element.textContent;
+                    const newDisplayValue = `${newValue}${mapping.suffix || ''}`;
+                    const oldValue = element.textContent.trim();
                     
                     // Vérifier si la valeur a vraiment changé
-                    if (newValue !== oldValue) {
-                        element.textContent = newValue;
+                    if (newDisplayValue !== oldValue) {
+                        element.textContent = newDisplayValue;
                         // Animation pour la mise à jour
                         element.style.transform = 'scale(1.1)';
                         element.style.color = '#3b82f6';
+
+                        const row = element.closest('.stat-row-sofascore');
+                        if (row) {
+                            row.classList.add('is-updated');
+                            row.classList.add('new');
+                            setTimeout(() => {
+                                row.classList.remove('is-updated');
+                                row.classList.remove('new');
+                            }, 600);
+                        }
                         
                         setTimeout(() => {
                             element.style.transform = 'scale(1)';
@@ -1083,6 +1319,8 @@
                     }
                 }
             });
+
+            refreshStatsBars();
         }
     }
     
