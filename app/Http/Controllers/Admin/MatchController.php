@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 use App\Events\MatchUpdated;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class MatchController extends Controller
 {
@@ -78,32 +80,32 @@ class MatchController extends Controller
      */
     public function update(Request $request, MatchModel $match, StandingService $standingService)
     {
-        
-        
-        // Sauvegarder les anciens scores et statut
-        $oldHomeScore = $match->home_score;
-        $oldAwayScore = $match->away_score;
-        $oldStatus = $match->status;
-        $oldUpdatedAt = $match->updated_at;
+        $requestId = (string) Str::uuid();
+        try {
+            // Sauvegarder les anciens scores et statut
+            $oldHomeScore = $match->home_score;
+            $oldAwayScore = $match->away_score;
+            $oldStatus = $match->status;
+            $oldUpdatedAt = $match->updated_at;
 
-        // Validation des données
-        $validated = $request->validate([
-            'home_team_id' => 'required|exists:teams,id|different:away_team_id',
-            'away_team_id' => 'required|exists:teams,id',
-            'match_date' => 'required|date',
-            'venue' => 'nullable|string|max:255',
-            'group' => 'nullable|string|max:1',
-            'status' => 'required|string|in:scheduled,live,halftime,finished,postponed,cancelled',
-            'home_score' => 'nullable|integer|min:0',
-            'away_score' => 'nullable|integer|min:0',
-            'match_type' => 'required|in:tournament,friendly',
-            'home_coach' => 'nullable|string|max:255',
-            'away_coach' => 'nullable|string|max:255',
-            'home_formation' => 'nullable|string|max:10',
-            'away_formation' => 'nullable|string|max:10',
-        ], [
-            'home_team_id.different' => 'L\'équipe à domicile et l\'équipe à l\'extérieur doivent être différentes.',
-        ]);
+            // Validation des données
+            $validated = $request->validate([
+                'home_team_id' => 'required|exists:teams,id|different:away_team_id',
+                'away_team_id' => 'required|exists:teams,id',
+                'match_date' => 'required|date',
+                'venue' => 'nullable|string|max:255',
+                'group' => 'nullable|string|max:1',
+                'status' => 'required|string|in:scheduled,live,halftime,finished,postponed,cancelled',
+                'home_score' => 'nullable|integer|min:0',
+                'away_score' => 'nullable|integer|min:0',
+                'match_type' => 'required|in:tournament,friendly',
+                'home_coach' => 'nullable|string|max:255',
+                'away_coach' => 'nullable|string|max:255',
+                'home_formation' => 'nullable|string|max:10',
+                'away_formation' => 'nullable|string|max:10',
+            ], [
+                'home_team_id.different' => 'L\'équipe à domicile et l\'équipe à l\'extérieur doivent être différentes.',
+            ]);
 
         // Mettre à jour le match
         $match->update($validated);
@@ -164,7 +166,18 @@ class MatchController extends Controller
 
         
 
-        return redirect()->route('admin.matches.index')->with('success', 'Match mis à jour!');
+            return redirect()->route('admin.matches.index')->with('success', 'Match mis à jour!');
+        } catch (\Throwable $e) {
+            Log::error('MatchController.update failed', [
+                'request_id' => $requestId,
+                'match_id' => $match->id ?? null,
+                'status' => $request->input('status'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', "Erreur serveur (ref: {$requestId}).");
+        }
     }
 
     /**

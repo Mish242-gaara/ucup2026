@@ -11,6 +11,8 @@ use App\Services\StandingService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Admin\LiveLineupRequest; 
 use Carbon\Carbon;
@@ -345,12 +347,14 @@ class LiveMatchController extends Controller
      */
     public function updateStatus(Request $request, MatchModel $match, StandingService $standingService)
     {
-        $validated = $request->validate([
-            'status' => 'required|in:scheduled,live,halftime,finished',
-        ]);
+        $requestId = (string) Str::uuid();
+        try {
+            $validated = $request->validate([
+                'status' => 'required|in:scheduled,live,halftime,finished',
+            ]);
         
-        $newStatus = $validated['status'];
-        $previousStatus = $match->status;
+            $newStatus = $validated['status'];
+            $previousStatus = $match->status;
 
         if ($newStatus === 'live' && $match->status !== 'live') {
             $allLineups = MatchLineup::where('match_id', $match->id)->get(); 
@@ -392,16 +396,27 @@ class LiveMatchController extends Controller
             $standingService->updateStandingsForMatch($match);
         }
         
-        $match->save();
+            $match->save();
 
-        // ✨ DIFFUSION EN TEMPS RÉEL (STATUT)
-        event(new MatchStatusOrStatsUpdated($match, [
-            'status' => $match->status,
-            'start_time' => $match->start_time ? $match->start_time->timestamp * 1000 : null,
-            'elapsed_time' => $match->getElapsedTime(),
-        ]));
+            // ✨ DIFFUSION EN TEMPS RÉEL (STATUT)
+            event(new MatchStatusOrStatsUpdated($match, [
+                'status' => $match->status,
+                'start_time' => $match->start_time ? $match->start_time->timestamp * 1000 : null,
+                'elapsed_time' => $match->getElapsedTime(),
+            ]));
 
-        return redirect()->back()->with('success', 'Statut du match mis à jour à : ' . ucfirst($match->status) . '.');
+            return redirect()->back()->with('success', 'Statut du match mis à jour à : ' . ucfirst($match->status) . '.');
+        } catch (\Throwable $e) {
+            Log::error('LiveMatchController.updateStatus failed', [
+                'request_id' => $requestId,
+                'match_id' => $match->id ?? null,
+                'status' => $request->input('status'),
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', "Erreur serveur (ref: {$requestId}).");
+        }
     }
     
     /**
