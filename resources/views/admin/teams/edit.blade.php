@@ -99,24 +99,16 @@
                 @enderror
             </div>
 
-            {{-- Champ Logo --}}
+            {{-- Logo de l'université (affiché, non modifiable ici) --}}
             <div>
-                <label class="block text-sm font-medium text-white mb-1">Logo / Blason de l'Équipe</label>
-                @if($team->logo)
+                <label class="block text-sm font-medium text-white mb-1">Logo de l'Université</label>
+                @if($team->university && $team->university->logo)
                     <div class="mb-2">
-                        {{-- Image : border-gray-600 --}}
-                        <img src="{{ asset('storage/' . $team->logo) }}" class="h-16 w-16 object-contain border border-gray-600 rounded p-1">
+                        <img src="{{ asset('storage/' . $team->university->logo) }}" class="h-16 w-16 object-contain border border-gray-600 rounded p-1">
                     </div>
+                @else
+                    <p class="text-gray-400 text-xs">Aucun logo d'université.</p>
                 @endif
-                {{-- File Input : bg-gray-700, border-gray-600, text-white, file:bg-blue-600 --}}
-                <input 
-                    type="file" 
-                    name="logo" 
-                    class="w-full border border-gray-600 rounded-lg p-2 text-sm text-white bg-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 @error('logo') border-red-500 @enderror"
-                >
-                @error('logo')
-                    <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
             {{-- Champ Détails --}}

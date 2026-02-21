@@ -79,6 +79,7 @@
                     <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
+
         </div>
 
         <div class="mt-6 flex justify-end space-x-3">
