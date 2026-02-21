@@ -35,6 +35,7 @@ use App\Models\MatchModel;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/health', fn () => response('ok', 200))->name('health');
 
 // CORRECTION : Utilisation du contrôleur FrontendGalleryController (l'alias)
 Route::get('/galerie', [FrontendGalleryController::class, 'index'])->name('gallery.index'); 
