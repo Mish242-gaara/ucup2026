@@ -415,7 +415,12 @@ class LiveMatchController extends Controller
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return redirect()->back()->with('error', "Erreur serveur (ref: {$requestId}).");
+            $debugEnabled = config('app.admin_debug_errors');
+            $message = $debugEnabled
+                ? "Erreur serveur (ref: {$requestId}) : " . $e->getMessage()
+                : "Erreur serveur (ref: {$requestId}).";
+
+            return redirect()->back()->with('error', $message);
         }
     }
     

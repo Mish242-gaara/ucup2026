@@ -40,6 +40,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
+    'admin_debug_errors' => (bool) env('ADMIN_DEBUG_ERRORS', false),
 
     /*
     |--------------------------------------------------------------------------
