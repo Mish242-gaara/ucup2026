@@ -15,8 +15,6 @@
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, 0.1);
         margin-bottom: 20px;
-        position: relative;
-        overflow: hidden;
     }
     .team-logo {
         width: 60px;
@@ -74,53 +72,6 @@
     @keyframes highlight {
         0% { background-color: rgba(233, 69, 96, 0.4); }
         100% { background-color: transparent; }
-    }
-
-    .goal-swipe {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: min(42%, 360px);
-        z-index: 30;
-        pointer-events: none;
-        opacity: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-family: 'Bebas Neue', 'Arial Black', sans-serif;
-        letter-spacing: 0.08em;
-        text-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    .goal-swipe.left {
-        left: 0;
-        background: linear-gradient(90deg, rgba(16, 185, 129, 0.88) 0%, rgba(16, 185, 129, 0.15) 78%, transparent 100%);
-        transform: translateX(-100%);
-    }
-
-    .goal-swipe.right {
-        right: 0;
-        background: linear-gradient(270deg, rgba(16, 185, 129, 0.88) 0%, rgba(16, 185, 129, 0.15) 78%, transparent 100%);
-        transform: translateX(100%);
-    }
-
-    .goal-swipe.active {
-        opacity: 1;
-        transform: translateX(0);
-        transition: transform 420ms cubic-bezier(.2, .9, .2, 1), opacity 260ms ease-out;
-    }
-
-    .goal-swipe .title {
-        font-size: clamp(1.5rem, 2.8vw, 2.4rem);
-        line-height: 1;
-        font-weight: 900;
-    }
-
-    .goal-swipe .team {
-        font-size: 0.85rem;
-        opacity: 0.95;
-        text-align: center;
     }
 </style>
 
@@ -276,99 +227,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const goalQueuesByMatch = new Map();
-
-    function getGoalStorageKey(matchId) {
-        return `goal_animation_seen_match_${matchId}`;
-    }
-
-    function hasGoalAnimationBeenSeen(matchId, eventId) {
-        if (!eventId) return false;
-        try {
-            const parsed = JSON.parse(sessionStorage.getItem(getGoalStorageKey(matchId)) || '[]');
-            return Array.isArray(parsed) && parsed.map(String).includes(String(eventId));
-        } catch (error) {
-            return false;
-        }
-    }
-
-    function markGoalAnimationAsSeen(matchId, eventId) {
-        if (!eventId) return;
-        const key = getGoalStorageKey(matchId);
-        let values = [];
-        try {
-            const parsed = JSON.parse(sessionStorage.getItem(key) || '[]');
-            if (Array.isArray(parsed)) {
-                values = parsed.map(String);
-            }
-        } catch (error) {}
-
-        if (!values.includes(String(eventId))) {
-            values.push(String(eventId));
-            sessionStorage.setItem(key, JSON.stringify(values));
-        }
-    }
-
-    function playGoalAnimationInMatchCard(matchId, side, teamName) {
-        const card = document.getElementById(`match-${matchId}`);
-        if (!card) return;
-
-        const overlay = document.createElement('div');
-        overlay.className = `goal-swipe ${side}`;
-        overlay.innerHTML = `
-            <div>
-                <div class="title">GOOOAL</div>
-                <div class="team">${teamName}</div>
-            </div>
-        `;
-        card.appendChild(overlay);
-
-        requestAnimationFrame(() => overlay.classList.add('active'));
-
-        setTimeout(() => {
-            overlay.classList.remove('active');
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 320);
-        }, 1700);
-    }
-
-    function queueGoalAnimation(matchId, event, homeTeamId, homeShortName, awayShortName) {
-        const eventId = event?.id || event?.event_id;
-        if (!eventId || hasGoalAnimationBeenSeen(matchId, eventId)) return;
-
-        markGoalAnimationAsSeen(matchId, eventId);
-
-        const isHomeGoal = Number(event.team_id) === Number(homeTeamId);
-        const side = isHomeGoal ? 'left' : 'right';
-        const teamName = isHomeGoal ? homeShortName : awayShortName;
-        const currentQueue = goalQueuesByMatch.get(matchId) || Promise.resolve();
-
-        const nextQueue = currentQueue.then(
-            () =>
-                new Promise(resolve => {
-                    playGoalAnimationInMatchCard(matchId, side, teamName);
-                    setTimeout(resolve, 1900);
-                })
-        );
-        goalQueuesByMatch.set(matchId, nextQueue);
-    }
-
     @foreach($liveMatches as $match)
     @if($match->status === 'live')
-    const initialGoalEvents{{ $match->id }} = @json(
-        $match->matchEvents
-            ? $match->matchEvents
-                ->filter(fn($event) => $event->event_type === 'goal')
-                ->sortBy('created_at')
-                ->values()
-                ->map(fn($event) => [
-                    'id' => $event->id,
-                    'event_id' => $event->id,
-                    'team_id' => $event->team_id,
-                ])
-            : []
-    );
-
     // Mettre à jour le temps de jeu pour le match {{ $match->id }}
     function updateMatchTime{{ $match->id }}() {
         const startTime = new Date('{{ $match->start_time }}');
@@ -447,13 +307,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let eventIcon = '';
         if (event.event_type === 'goal') {
             eventIcon = '<span class="text-green-400">⚽ BUT!</span>';
-            queueGoalAnimation(
-                {{ $match->id }},
-                event,
-                {{ $match->home_team_id }},
-                @json($match->homeTeam->university->short_name ?? 'Équipe locale'),
-                @json($match->awayTeam->university->short_name ?? 'Équipe visiteuse')
-            );
         } else if (event.event_type === 'yellow_card') {
             eventIcon = '<span class="text-yellow-400">🟨 Carton jaune</span>';
         } else if (event.event_type === 'red_card') {
@@ -577,15 +430,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setupRealtime{{ $match->id }}();
-    initialGoalEvents{{ $match->id }}.forEach((event) => {
-        queueGoalAnimation(
-            {{ $match->id }},
-            event,
-            {{ $match->home_team_id }},
-            @json($match->homeTeam->university->short_name ?? 'Équipe locale'),
-            @json($match->awayTeam->university->short_name ?? 'Équipe visiteuse')
-        );
-    });
     @endif
     @endforeach
 });

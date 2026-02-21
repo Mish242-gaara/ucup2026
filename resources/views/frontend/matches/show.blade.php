@@ -258,59 +258,6 @@
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.2); }
     }
-
-    .goal-overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: min(42vw, 520px);
-        z-index: 9999;
-        pointer-events: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Bebas Neue', 'Arial Black', sans-serif;
-        letter-spacing: 0.08em;
-        color: #ffffff;
-        text-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-        opacity: 0;
-        transform: translateX(0);
-        will-change: transform, opacity;
-    }
-
-    .goal-overlay.goal-left {
-        left: 0;
-        background: linear-gradient(90deg, rgba(16, 185, 129, 0.9) 0%, rgba(16, 185, 129, 0.15) 75%, transparent 100%);
-        transform: translateX(-100%);
-    }
-
-    .goal-overlay.goal-right {
-        right: 0;
-        background: linear-gradient(270deg, rgba(16, 185, 129, 0.9) 0%, rgba(16, 185, 129, 0.15) 75%, transparent 100%);
-        transform: translateX(100%);
-    }
-
-    .goal-overlay.is-active {
-        opacity: 1;
-        transform: translateX(0);
-        transition: transform 420ms cubic-bezier(.2, .9, .2, 1), opacity 260ms ease-out;
-    }
-
-    .goal-overlay__content {
-        text-align: center;
-        padding: 1rem 1.5rem;
-    }
-
-    .goal-overlay__title {
-        font-size: clamp(2rem, 5vw, 4.2rem);
-        line-height: 1;
-        font-weight: 900;
-    }
-
-    .goal-overlay__team {
-        font-size: clamp(0.9rem, 1.8vw, 1.15rem);
-        opacity: 0.95;
-    }
     
     .event-card { 
         background: linear-gradient(135deg, #f59e0b, #d97706);
@@ -1513,82 +1460,6 @@
     }
     
     const seenEventIds = new Set();
-    const goalAnimationStorageKey = 'goal_animation_seen_match_{{ $match->id }}';
-    const homeTeamId = {{ $match->home_team_id }};
-    const homeTeamShortName = @json($match->homeTeam->university->short_name ?? 'Équipe locale');
-    const awayTeamShortName = @json($match->awayTeam->university->short_name ?? 'Équipe visiteuse');
-    const initialGoalEvents = @json(
-        $match->matchEvents
-            ->filter(fn($event) => $event->event_type === 'goal')
-            ->sortBy('created_at')
-            ->values()
-            ->map(fn($event) => [
-                'id' => $event->id,
-                'event_id' => $event->id,
-                'team_id' => $event->team_id,
-            ])
-    );
-    let goalAnimationQueue = Promise.resolve();
-
-    function getSeenGoalAnimations() {
-        try {
-            const parsed = JSON.parse(sessionStorage.getItem(goalAnimationStorageKey) || '[]');
-            return Array.isArray(parsed) ? new Set(parsed.map(String)) : new Set();
-        } catch (error) {
-            return new Set();
-        }
-    }
-
-    function markGoalAnimationAsSeen(eventId) {
-        if (!eventId) return;
-        const seen = getSeenGoalAnimations();
-        seen.add(String(eventId));
-        sessionStorage.setItem(goalAnimationStorageKey, JSON.stringify(Array.from(seen)));
-    }
-
-    function hasGoalAnimationBeenSeen(eventId) {
-        if (!eventId) return false;
-        return getSeenGoalAnimations().has(String(eventId));
-    }
-
-    function playGoalOverlay(side, teamName) {
-        const overlay = document.createElement('div');
-        overlay.className = `goal-overlay ${side === 'left' ? 'goal-left' : 'goal-right'}`;
-        overlay.innerHTML = `
-            <div class="goal-overlay__content">
-                <div class="goal-overlay__title">GOOOAL</div>
-                <div class="goal-overlay__team">${teamName}</div>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-
-        requestAnimationFrame(() => overlay.classList.add('is-active'));
-
-        setTimeout(() => {
-            overlay.classList.remove('is-active');
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 320);
-        }, 1700);
-    }
-
-    function queueGoalAnimationForEvent(event) {
-        const eventId = event?.id || event?.event_id;
-        if (!eventId || hasGoalAnimationBeenSeen(eventId)) return;
-
-        markGoalAnimationAsSeen(eventId);
-
-        const isHomeGoal = Number(event.team_id) === Number(homeTeamId);
-        const side = isHomeGoal ? 'left' : 'right';
-        const teamName = isHomeGoal ? homeTeamShortName : awayTeamShortName;
-
-        goalAnimationQueue = goalAnimationQueue.then(
-            () =>
-                new Promise(resolve => {
-                    playGoalOverlay(side, teamName);
-                    setTimeout(resolve, 1900);
-                })
-        );
-    }
 
     // Fonction pour ajouter un nouvel événement
     function addEvent(event) {
@@ -1705,10 +1576,6 @@
 
         // Afficher une notification pour l'événement
         showNotification(notificationMessage, 'success');
-
-        if (event.event_type === 'goal') {
-            queueGoalAnimationForEvent(event);
-        }
     }
     
     // Variables pour suivre les timestamps
@@ -2060,8 +1927,6 @@
             startLocalTimer();
             updateElapsedTime();
             setupRealtime();
-
-            initialGoalEvents.forEach(event => queueGoalAnimationForEvent(event));
             
             // DEBUG: Vérifier l'état du timer
             debugLog('=== TIMER DEBUG ===');
