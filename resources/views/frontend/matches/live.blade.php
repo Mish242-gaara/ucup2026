@@ -86,13 +86,65 @@
     }
 
     @media (max-width: 400px) {
+        .match-card {
+            padding: 12px;
+        }
+        .match-live-container {
+            padding: 12px;
+        }
+        h1 {
+            font-size: 2rem;
+        }
         .score-display {
-            font-size: 1.3rem;
-            padding: 5px 8px;
+            font-size: 1.2rem;
+            padding: 4px 6px;
         }
         .team-logo {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
+        }
+        .team-logo + h2 {
+            font-size: 1rem;
+        }
+        .live-indicator {
+            padding: 4px 8px;
+        }
+        .stat-box {
+            padding: 6px;
+        }
+        .event-item {
+            padding: 6px;
+        }
+        .event-item .text-sm {
+            font-size: 0.75rem;
+        }
+    }
+    @media (max-width: 360px) {
+        .match-card {
+            padding: 10px;
+        }
+        h1 {
+            font-size: 1.8rem;
+        }
+        .score-display {
+            font-size: 1rem;
+            padding: 3px 5px;
+        }
+        .team-logo {
+            width: 30px;
+            height: 30px;
+        }
+        .team-logo + h2 {
+            font-size: 0.95rem;
+        }
+        .live-indicator {
+            font-size: 0.75rem;
+        }
+        .stat-box {
+            font-size: 0.8rem;
+        }
+        .event-item .text-sm {
+            font-size: 0.7rem;
         }
     }
 </style>
