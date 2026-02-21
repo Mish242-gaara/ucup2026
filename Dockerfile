@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.4-fpm
 
 WORKDIR /app
 
@@ -11,8 +11,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     libonig-dev \
     libxml2-dev \
+    libicu-dev \
     ca-certificates \
-    && docker-php-ext-install pdo pdo_pgsql mbstring zip xml \
+    && docker-php-ext-install pdo pdo_pgsql mbstring zip xml intl \
     && rm -rf /var/lib/apt/lists/*
 
 # Composer
