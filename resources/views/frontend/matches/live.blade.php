@@ -84,6 +84,17 @@
             height: 44px;
         }
     }
+
+    @media (max-width: 400px) {
+        .score-display {
+            font-size: 1.3rem;
+            padding: 5px 8px;
+        }
+        .team-logo {
+            width: 38px;
+            height: 38px;
+        }
+    }
 </style>
 
 <div class="match-live-container">
