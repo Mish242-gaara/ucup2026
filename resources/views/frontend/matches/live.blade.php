@@ -73,6 +73,17 @@
         0% { background-color: rgba(233, 69, 96, 0.4); }
         100% { background-color: transparent; }
     }
+
+    @media (max-width: 640px) {
+        .score-display {
+            font-size: 1.6rem;
+            padding: 6px 10px;
+        }
+        .team-logo {
+            width: 44px;
+            height: 44px;
+        }
+    }
 </style>
 
 <div class="match-live-container">
