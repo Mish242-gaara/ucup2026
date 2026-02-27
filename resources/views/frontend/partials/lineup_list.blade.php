@@ -17,7 +17,7 @@
             if (!$player || !$player->jersey_number) continue; 
 
             $fullName = $player->full_name ?? ($player->first_name . ' ' . $player->last_name);
-            $photoUrl = $player->photo_path ? asset('storage/' . $player->photo_path) : null;
+            $photoUrl = $player->photo_url;
         @endphp
         
         {{-- Ligne du joueur : hover:bg-gray-700 --}}

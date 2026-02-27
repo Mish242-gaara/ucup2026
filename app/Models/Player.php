@@ -93,11 +93,20 @@ class Player extends Model
         return $this->birth_date ? $this->birth_date->age : null;
     }
     
-    // 📸 Correction mineure du chemin par défaut pour plus de clarté
+    // 📸 Correction du chemin par défaut avec vérification plus robuste
     public function getPhotoUrlAttribute()
     {
-        // Si photo_path existe, utilise le lien symbolique. Sinon, utilise une image par défaut.
-        return $this->photo_path ? asset('storage/' . $this->photo_path) : asset('images/default-player.png');
+        // Si photo_path existe et n'est pas vide
+        if (!empty($this->photo_path)) {
+            $url = asset('storage/' . $this->photo_path);
+            // Vérifie si le fichier existe réellement
+            $fullPath = public_path('storage/' . $this->photo_path);
+            if (file_exists($fullPath)) {
+                return $url;
+            }
+        }
+        // Fallback vers l'image par défaut
+        return asset('images/default-player.svg');
     }
 
     // ------------------------------------
